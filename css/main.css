@@ -1,0 +1,12 @@
+span.selected {
+  font-weight: bold;
+  color: red;
+}
+
+span.C:hover {
+  cursor: pointer;
+}
+
+span.F:hover {
+  cursor: pointer;
+}
