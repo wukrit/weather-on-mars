@@ -23,9 +23,10 @@ span.mps:hover {
 /* Sol Divs */
 body {
   background-color: #2c2626;
+  overflow: -moz-scrollbars-none;
+  overflow: hidden;
   color: #FFF;
   font-family: 'Space Mono', monospace;
-  overflow: hidden;
   color: white;
   text-shadow:
    -1px -1px 0 #000,
@@ -44,7 +45,7 @@ li {
 
 .sol-div {
   width: 100vw;
-  height: 100vw;
+  min-height: 101vh;
   overflow: hidden;
   margin-top: -9px;
   margin-left: -10px;
@@ -59,7 +60,7 @@ li {
 .sol-div ul {
   list-style: none;
   display: block;
-  margin-top: 65vh;
+  margin-top: 63vh;
   margin-right: 1vw;
   text-align: right;
   overflow: hidden;

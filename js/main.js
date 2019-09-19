@@ -4,10 +4,14 @@
 // live url: https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdcj05QtLcxJOOgm&feedtype=json&ver=1.0
 
 const mainDiv = document.querySelector('.content-wrapper')
-const images = ["images/mars1.jpg", "images/mars2.jpg", "images/mars3.jpg", "images/mars4.jpg", "images/mars5.jpg", "images/mars6.jpg"]
+const images = []
 
 // Helper Functions VV
 // Random background
+const numberOfImages = 11
+for (var i = 1; i < numberOfImages; i++) {
+  images.push(`images/mars${i}.jpg`)
+}
 const randomImage = images => images[Math.floor(Math.random() * images.length)]
 // Scroll Divs
 const scrollToTop = element => element.scrollIntoView(true)
@@ -84,15 +88,43 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         solDiv.style.backgroundImage = `url(${randomImage(images)})`
         solDiv.style.backgroundSize = "cover"
 
+        solDiv.addEventListener("wheel", () => {
+          let target = event.target
+          if (target.nextElementSibling) {
+            const y = target.nextElementSibling.getBoundingClientRect().top + window.scrollY;
+            window.scroll({
+              top: y,
+              behavior: 'smooth'
+            })
+          } else {
+            const y = target.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY;
+            window.scroll({
+              top: y,
+              behavior: 'smooth'
+            })
+          }
+        })
+
         next.innerText = " > "
         next.addEventListener("click", () => {
           let target = event.target
           if (target.parentElement.nextElementSibling) {
-            target.parentElement.nextElementSibling.scrollIntoView(true)
+            const y = target.parentElement.nextElementSibling.getBoundingClientRect().top + window.scrollY;
+            window.scroll({
+              top: y,
+              behavior: 'smooth'
+            })
           } else {
-            target.parentElement.parentElement.firstElementChild.scrollIntoView(true)
+            const y = target.parentElement.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY;
+            window.scroll({
+              top: y,
+              behavior: 'smooth'
+            })
           }
+
         })
+
+
 
         solUl.id = `${solDay}-ul`
         solUl.classList.add("sol-ul")
