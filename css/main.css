@@ -23,7 +23,15 @@ span.mps:hover {
 /* Sol Divs */
 body {
   background-color: #2c2626;
-  color: #ff7b2e;
+  color: #FFF;
+  font-family: 'Space Mono', monospace;
+  overflow: hidden;
+  color: white;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
 }
 
 h2 {
@@ -34,6 +42,42 @@ li {
   font-size: large;
 }
 
-.solDiv {
+.sol-div {
+  width: 100vw;
+  height: 100vw;
+  overflow: hidden;
+  margin-top: -9px;
+  margin-left: -10px;
+}
 
+.sol-div h2 {
+  text-align: left;
+  display: inline-flex;
+  margin-left: 1vw;
+}
+
+.sol-div ul {
+  list-style: none;
+  display: block;
+  margin-top: 65vh;
+  margin-right: 1vw;
+  text-align: right;
+  overflow: hidden;
+}
+
+.sol-div li {
+  font-size: xx-large;
+}
+
+.sol-div a {
+  font-size: xx-large;
+  text-decoration: none;
+  padding: 0 20px 0 20px;
+  display:inline-flex;
+  margin-right: 4vw;
+  bottom: 10vh;
+}
+
+.sol-div a:hover {
+  cursor: pointer;
 }

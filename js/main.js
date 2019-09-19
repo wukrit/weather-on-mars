@@ -4,14 +4,20 @@
 // live url: https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdcj05QtLcxJOOgm&feedtype=json&ver=1.0
 
 const mainDiv = document.querySelector('.content-wrapper')
+const images = ["images/mars1.jpg", "images/mars2.jpg", "images/mars3.jpg", "images/mars4.jpg", "images/mars5.jpg", "images/mars6.jpg"]
 
 // Helper Functions VV
+// Random background
+const randomImage = images => images[Math.floor(Math.random() * images.length)]
+// Scroll Divs
+const scrollToTop = element => element.scrollIntoView(true)
 // API Helpers
 const pullAvgTemp = dayObj => `${dayObj.AT.av}°`
 const pullMinTemp = dayObj => `${dayObj.AT.mn}°`
 const pullMaxTemp = dayObj => `${dayObj.AT.mx}°`
 const pullWindSpeed = dayObj => dayObj.HWS.av
 const pullWindDir = dayObj => dayObj.WD.most_common.compass_point
+const pullDate = dayObj => dayObj.First_UTC.substring(0,10)
 // Conversion Helpers
 const cToF = temp => ((temp - 32) * (5/9)).toFixed(3)
 const fToC = temp => ((temp * (9/5)) + 32).toFixed(3)
@@ -55,7 +61,7 @@ const createLi = (dayObj, func, label, unit1, unit2, seperator)  => {
 fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdcj05QtLcxJOOgm&feedtype=json&ver=1.0")
   .then(response => response.json())
   .then((json) => {
-    const solKeys = json["sol_keys"]
+    const solKeys = json["sol_keys"].reverse()
     // console.log(solKeys)
     solKeys.forEach((solDay) => {
       if (json[solDay]) {
@@ -64,21 +70,36 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         let maxTempLi = createLi(json[solDay], pullMaxTemp, "Max Temp", "F", "C", " | ")
         let windSpeedLi = createLi(json[solDay], pullWindSpeed, "Wind Speed:  ", "mps", "MpH", " | ")
         let windDirLi = createLi(json[solDay], pullWindDir, "Wind Direction:  ", "", "", "")
+        let next = document.createElement("a")
+        let date = pullDate(json[solDay])
         let solDiv = document.createElement("div")
         let solUl = document.createElement("ul")
 
         let divTitle = document.createElement("h2")
 
-        divTitle.innerText = `Sol ${solDay}`
+        divTitle.innerText = `Sol ${solDay} | Earth Date ${date}`
 
         solDiv.id = `${solDay}-div`
         solDiv.classList.add("sol-div")
+        solDiv.style.backgroundImage = `url(${randomImage(images)})`
+        solDiv.style.backgroundSize = "cover"
+
+        next.innerText = " > "
+        next.addEventListener("click", () => {
+          let target = event.target
+          if (target.parentElement.nextElementSibling) {
+            target.parentElement.nextElementSibling.scrollIntoView(true)
+          } else {
+            target.parentElement.parentElement.firstElementChild.scrollIntoView(true)
+          }
+        })
 
         solUl.id = `${solDay}-ul`
         solUl.classList.add("sol-ul")
 
         solUl.append(avgTempLi, minTempLi, maxTempLi, windSpeedLi, windDirLi)
         solDiv.append(divTitle)
+        solDiv.append(next)
         solDiv.append(solUl)
         mainDiv.append(solDiv)
       }
