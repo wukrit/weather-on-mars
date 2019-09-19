@@ -8,7 +8,7 @@ const images = []
 
 // Helper Functions VV
 // Random background
-const numberOfImages = 11
+const numberOfImages = 22
 for (var i = 1; i < numberOfImages; i++) {
   images.push(`images/mars${i}.jpg`)
 }
