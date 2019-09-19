@@ -124,8 +124,6 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
 
         })
 
-
-
         solUl.id = `${solDay}-ul`
         solUl.classList.add("sol-ul")
 
