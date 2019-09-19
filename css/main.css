@@ -1,3 +1,4 @@
+/* Pointers */
 span.selected {
   font-weight: bold;
   color: red;
@@ -9,4 +10,30 @@ span.C:hover {
 
 span.F:hover {
   cursor: pointer;
+}
+
+span.MpH:hover {
+  cursor: pointer;
+}
+
+span.mps:hover {
+  cursor: pointer;
+}
+
+/* Sol Divs */
+body {
+  background-color: #2c2626;
+  color: #ff7b2e;
+}
+
+h2 {
+  font-size: xx-large;
+}
+
+li {
+  font-size: large;
+}
+
+.solDiv {
+
 }

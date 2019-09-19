@@ -5,12 +5,30 @@
 
 const mainDiv = document.querySelector('.content-wrapper')
 
+// Helper Functions VV
+// API Helpers
 const pullAvgTemp = dayObj => `${dayObj.AT.av}°`
 const pullMinTemp = dayObj => `${dayObj.AT.mn}°`
 const pullMaxTemp = dayObj => `${dayObj.AT.mx}°`
 const pullWindSpeed = dayObj => dayObj.HWS.av
 const pullWindDir = dayObj => dayObj.WD.most_common.compass_point
+// Conversion Helpers
+const cToF = temp => ((temp - 32) * (5/9)).toFixed(3)
+const fToC = temp => ((temp * (9/5)) + 32).toFixed(3)
+const msToMph = speed => (speed * 2.237).toFixed(3)
+const mphToMs = speed => (speed / 2.237).toFixed(3)
+// Conversion Handlers
+const conversionHandler = (to, from, target, func, unit) => {
+  let oldSel = target.parentElement.querySelector(`.${from}`)
+  let valueSpan = target.parentElement.querySelector(".value")
+  let value = parseFloat(valueSpan.innerText)
+  let newValue = func(value)
 
+  target.classList.add("selected")
+  oldSel.classList.remove("selected")
+  valueSpan.innerText = `${newValue}${unit}`
+}
+// Dom Element Helpers
 const createLi = (dayObj, func, label, unit1, unit2, seperator)  => {
   let funcValue = func(dayObj)
   let valueSpan = document.createElement("span")
@@ -41,10 +59,10 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
     // console.log(solKeys)
     solKeys.forEach((solDay) => {
       if (json[solDay]) {
-        let avgTempLi = createLi(json[solDay], pullAvgTemp, "Avg Temp:  ", "F", "C", " | ")
-        let minTempLi = createLi(json[solDay], pullMinTemp, "Min Temp:  ", "F", "C", " | ")
-        let maxTempLi = createLi(json[solDay], pullMaxTemp, "Max Temp:  ", "F", "C", " | ")
-        let windSpeedLi = createLi(json[solDay], pullWindSpeed, "Wind Speed:  ", "m/s", "MpH", " | ")
+        let avgTempLi = createLi(json[solDay], pullAvgTemp, "Avg Temp", "F", "C", " | ")
+        let minTempLi = createLi(json[solDay], pullMinTemp, "Min Temp", "F", "C", " | ")
+        let maxTempLi = createLi(json[solDay], pullMaxTemp, "Max Temp", "F", "C", " | ")
+        let windSpeedLi = createLi(json[solDay], pullWindSpeed, "Wind Speed:  ", "mps", "MpH", " | ")
         let windDirLi = createLi(json[solDay], pullWindDir, "Wind Direction:  ", "", "", "")
         let solDiv = document.createElement("div")
         let solUl = document.createElement("ul")
@@ -69,27 +87,15 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
 
 mainDiv.addEventListener("click", () => {
   let target = event.target
-  if (target.classList.contains("C")) {
-    let oldSel = target.parentElement.querySelector(".F")
-    let valueSpan = target.parentElement.querySelector(".value")
-    let value = parseFloat(valueSpan.innerText)
-
-    value = ((value - 32) * (5/9)).toFixed(3)
-    valueSpan.innerText = `${value}°`
-
-    target.classList.add("selected")
-    oldSel.classList.remove("selected")
-
-  } else if (target.classList.contains("F")) {
-    let oldSel = target.parentElement.querySelector(".C")
-    let valueSpan = target.parentElement.querySelector(".value")
-    let value = parseFloat(valueSpan.innerText)
-
-    value = ((value * (9/5)) + 32).toFixed(3)
-    valueSpan.innerText = `${value}°`
-
-    target.classList.add("selected")
-    oldSel.classList.remove("selected")
-    // insert conversion here
+  if (!target.classList.contains("selected")) {
+    if (target.classList.contains("C")) {
+      conversionHandler("C", "F", target, cToF, "°")
+    } else if (target.classList.contains("F")) {
+      conversionHandler("F", "C", target, fToC, "°")
+    } else if (target.classList.contains("mps")) {
+      conversionHandler("mps", "MpH", target, msToMph, "")
+    } else if (target.classList.contains("MpH")) {
+      conversionHandler("MpH", "mps", target, mphToMs,"")
+    }
   }
 })
