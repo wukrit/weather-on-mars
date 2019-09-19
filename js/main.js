@@ -98,13 +98,13 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         solDiv.addEventListener("wheel", () => {
           let target = event.target
           if (target.nextElementSibling) {
-            const y = target.nextElementSibling.getBoundingClientRect().top + window.scrollY;
+            const y = target.nextElementSibling.getBoundingClientRect().top + window.scrollY
             window.scroll({
               top: y,
               behavior: 'smooth'
             })
           } else {
-            const y = target.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY;
+            const y = target.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY
             window.scroll({
               top: y,
               behavior: 'smooth'
@@ -116,13 +116,13 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         next.addEventListener("click", () => {
           let target = event.target
           if (target.parentElement.nextElementSibling) {
-            const y = target.parentElement.nextElementSibling.getBoundingClientRect().top + window.scrollY;
+            const y = target.parentElement.nextElementSibling.getBoundingClientRect().top + window.scrollY
             window.scroll({
               top: y,
               behavior: 'smooth'
             })
           } else {
-            const y = target.parentElement.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY;
+            const y = target.parentElement.parentElement.firstElementChild.getBoundingClientRect().top + window.scrollY
             window.scroll({
               top: y,
               behavior: 'smooth'
