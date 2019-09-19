@@ -60,6 +60,12 @@ const createLi = (dayObj, func, label, unit1, unit2, seperator)  => {
   li.append(valueSpan, " ", unit1Span, pipe, unit2Span)
   return li
 }
+const createSeason = dayObj => {
+  let season = dayObj.Season
+  let seasonLi = document.createElement("li")
+  seasonLi.innerText = `Mars Season: ${season}`
+  return seasonLi
+}
 
 
 fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdcj05QtLcxJOOgm&feedtype=json&ver=1.0")
@@ -72,8 +78,9 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         let avgTempLi = createLi(json[solDay], pullAvgTemp, "Avg Temp", "F", "C", " | ")
         let minTempLi = createLi(json[solDay], pullMinTemp, "Min Temp", "F", "C", " | ")
         let maxTempLi = createLi(json[solDay], pullMaxTemp, "Max Temp", "F", "C", " | ")
-        let windSpeedLi = createLi(json[solDay], pullWindSpeed, "Wind Speed:  ", "mps", "MpH", " | ")
-        let windDirLi = createLi(json[solDay], pullWindDir, "Wind Direction:  ", "", "", "")
+        let windSpeedLi = createLi(json[solDay], pullWindSpeed, "Wind Speed", "mps", "MpH", " | ")
+        let windDirLi = createLi(json[solDay], pullWindDir, "Wind Direction", "", "", "")
+        let season = createSeason(json[solDay])
         let next = document.createElement("a")
         let date = pullDate(json[solDay])
         let solDiv = document.createElement("div")
@@ -127,7 +134,7 @@ fetch("https://api.nasa.gov/insight_weather/?api_key=COCIGDGp6Pfcbdgc5tTfWnmnFdc
         solUl.id = `${solDay}-ul`
         solUl.classList.add("sol-ul")
 
-        solUl.append(avgTempLi, minTempLi, maxTempLi, windSpeedLi, windDirLi)
+        solUl.append(avgTempLi, minTempLi, maxTempLi, windSpeedLi, windDirLi, season)
         solDiv.append(divTitle)
         solDiv.append(next)
         solDiv.append(solUl)
